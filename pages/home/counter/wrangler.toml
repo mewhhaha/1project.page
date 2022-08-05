@@ -1,5 +1,5 @@
 compatibility_date = "2022-02-03"
-main = "./dist/worker.ts"
+main = "./worker.ts"
 name = "home-counter"
 
 [durable_objects]

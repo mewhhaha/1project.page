@@ -1,7 +1,36 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useWebSocket } from "../hooks";
 
-function App() {
+const useCounter = () => {
+  const [count, setCount] = useState<number>(0);
+  const [socket, status] = useWebSocket(
+    "wss://home-counter.horrible.workers.dev/connect",
+    {
+      reconnect: true,
+      retries: 3,
+    }
+  );
+
+  useEffect(() => {
+    if (socket === undefined) return;
+    socket.onmessage = (event) => {
+      const next = Number.parseInt(event.data);
+      setCount(next);
+    };
+  }, [socket]);
+
+  const increment = () => {
+    if (status === "open") {
+      socket?.send("ok");
+    }
+  };
+
+  return [count, increment] as const;
+};
+
+export default function App() {
+  const [main, increment] = useCounter();
   const [count, setCount] = useState(0);
 
   return (
@@ -37,8 +66,11 @@ function App() {
             <div className="mt-24 flex flex-col items-center rounded-md border-2 border-gray-600 py-10 px-4">
               <button
                 type="button"
-                className="inline-flex items-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95"
-                onClick={() => setCount((p) => p + 1)}
+                className="inline-flex items-center rounded-md border border-transparent px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95"
+                onClick={() => {
+                  increment();
+                  setCount((p) => p + 1);
+                }}
               >
                 <div
                   className="i-carbon:cafe -ml-1 mr-3 h-5 w-5"
@@ -50,18 +82,19 @@ function App() {
                 <div
                   className={clsx(
                     "duration-800 transition-opacity",
-                    count > 0 ? "opacity-100" : "opacity-0"
+                    count > 0 ? "opacity-100" : "opacity-20"
                   )}
                 >
                   you {count}
                 </div>
+
                 <div
-                  className={clsx(
-                    "duration-600 transition-opacity",
-                    count > 0 ? "opacity-100" : "opacity-0"
-                  )}
+                  className={clsx("duration-600 transition-opacity", {
+                    "opacity-20": main !== undefined && count === 0,
+                    "opacity-100": main !== undefined && count > 0,
+                  })}
                 >
-                  them {count}
+                  them {main}
                 </div>
               </span>
             </div>
@@ -89,5 +122,3 @@ const Orange = ({ children }: ColorProps) => {
 const Divider = () => {
   return <span className="h-1 w-full bg-gray-900"></span>;
 };
-
-export default App;
