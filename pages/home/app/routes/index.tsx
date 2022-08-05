@@ -34,9 +34,9 @@ export default function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="relative h-screen w-screen">
-      <article className="h-full bg-black">
-        <div className="relative isolate bg-gradient-to-b from-gray-800 via-black to-black pt-20">
+    <div className="relative h-screen w-screen overflow-hidden">
+      <article className="flex h-full flex-col overflow-auto bg-black">
+        <div className="relative isolate bg-gradient-to-b from-gray-800 via-black to-black pt-10">
           <div className="color-black -z-1 absolute inset-0 bg-[url(./floating-cogs.svg)]" />
           <h1 className="z-1 pb-16 text-center font-sans text-7xl font-extrabold text-white sm:text-8xl md:text-9xl">
             1 Page
@@ -56,14 +56,14 @@ export default function App() {
           <Divider />
 
           <div className="w-full max-w-3xl px-16  font-extrabold text-gray-100">
-            <h2 className="my-12 text-7xl">What are you doing?</h2>
-            <p className="text-6xl">
+            <h2 className="my-12 text-5xl sm:text-7xl">What are you doing?</h2>
+            <p className="text-4xl sm:text-6xl">
               Every <Orange>page</Orange> will be its own little{" "}
               <Red>experiment</Red>. <br />
               Starting with <Green>this button.</Green>
             </p>
 
-            <div className="mt-24 flex flex-col items-center rounded-md border-2 border-gray-600 py-10 px-4">
+            <div className="mt-24 mb-10 flex flex-col items-center rounded-md border-2 border-gray-600 py-10 px-4">
               <button
                 type="button"
                 className="inline-flex items-center rounded-md border border-transparent px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95"
