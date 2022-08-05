@@ -1,0 +1,20 @@
+{
+  "name": "ditty",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "types": "./ditty.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild ditty.ts --target=es2020 --format=esm --bundle --outfile=dist/index.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^3.14.1",
+    "esbuild": "^0.14.53"
+  }
+}

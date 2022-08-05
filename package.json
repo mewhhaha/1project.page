@@ -1,0 +1,18 @@
+{
+  "name": "1project.page",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.1.7",
+    "@unocss/cli": "^0.45.1",
+    "@unocss/preset-icons": "^0.45.1",
+    "@unocss/preset-wind": "^0.45.1"
+  }
+}

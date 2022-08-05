@@ -1,0 +1,12 @@
+compatibility_date = "2022-02-03"
+main = "./dist/worker.ts"
+name = "home-counter"
+
+[durable_objects]
+bindings = [
+  {name = "COUNTER_DO", class_name = "Counter"},
+]
+
+[[migrations]]
+new_classes = ["Counter"]
+tag = "v1"
