@@ -130,12 +130,3 @@ const Orange = ({ children }: ColorProps) => {
 const Divider = () => {
   return <span className="h-1 w-full bg-gray-900"></span>;
 };
-
-type FireworkProps = {
-  from: `${number},${number}`;
-  to: `${number},${number}`;
-};
-
-const Firework = ({ from, to }: FireworkProps) => {
-  return <>hello</>;
-};
