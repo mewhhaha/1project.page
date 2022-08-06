@@ -5,8 +5,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
-import type { MetaFunction, LinksFunction } from "@remix-run/cloudflare";
+import type {
+  MetaFunction,
+  LinksFunction,
+  LoaderFunction,
+} from "@remix-run/cloudflare";
 import styles from "./unocss.css";
 import reset from "@unocss/reset/tailwind.css";
 
@@ -43,7 +48,17 @@ export const meta: MetaFunction = () => {
   };
 };
 
+export const loader: LoaderFunction = () => {
+  const nonce = [...crypto.getRandomValues(new Uint8Array(32))]
+    .map((x) => String.fromCharCode(x))
+    .join("");
+
+  return nonce;
+};
+
 export default function App() {
+  const nonce = useLoaderData<string>();
+
   return (
     <html lang="en">
       <head>
@@ -52,10 +67,10 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-black">
         <Outlet />
         <ScrollRestoration />
-        <Scripts />
+        <Scripts nonce={nonce} />
         <LiveReload />
       </body>
     </html>

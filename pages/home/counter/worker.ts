@@ -1,5 +1,6 @@
 import type { DurableObjectNamespaceIs } from "ditty";
-import { ws, accept, client, call } from "ditty";
+import { CallableDurableObject } from "ditty";
+import { ws, client, call } from "ditty";
 
 const COUNT_KEY = "count";
 
@@ -7,12 +8,13 @@ export type Env = {
   COUNTER_DO: DurableObjectNamespaceIs<Counter>;
 };
 
-export class Counter {
+export class Counter extends CallableDurableObject {
   private sessions: ReturnType<typeof ws>;
   private storage: DurableObjectStorage;
   private count = 0;
 
   constructor(state: DurableObjectState) {
+    super();
     this.sessions = ws();
     this.storage = state.storage;
     state.blockConcurrencyWhile(async () => {
@@ -35,8 +37,6 @@ export class Counter {
       },
     });
   }
-
-  fetch = accept;
 }
 
 export default {

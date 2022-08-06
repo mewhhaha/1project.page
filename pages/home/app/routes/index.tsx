@@ -34,10 +34,20 @@ export default function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden">
-      <article className="flex h-full flex-col overflow-auto bg-black">
+    <>
+      <header className="z-1 relative isolate w-full">
+        <div className="absolute top-2 right-2">
+          <a
+            href="https://github.com/mewhhaha/1projectpage"
+            aria-label="Github"
+          >
+            <div className="i-carbon:logo-github color-white h-10 w-10 shadow-xl" />
+          </a>
+        </div>
+      </header>
+      <main className="isolate flex h-full flex-col overflow-auto">
         <div className="relative isolate bg-gradient-to-b from-gray-800 via-black to-black pt-10">
-          <div className="color-black -z-1 absolute inset-0 bg-[url(./floating-cogs.svg)]" />
+          <div className="color-black -z-1 absolute inset-0 bg-[url(/floating-cogs.svg)]" />
           <h1 className="z-1 pb-16 text-center font-sans text-7xl font-extrabold text-white sm:text-8xl md:text-9xl">
             1 Page
             <br />
@@ -46,15 +56,10 @@ export default function App() {
             </span>
           </h1>
         </div>
-        <div className="absolute top-2 right-2">
-          <a href="https://github.com/mewhhaha/1projectpage">
-            <div className="i-carbon:logo-github color-white h-10 w-10 shadow-xl" />
-          </a>
-        </div>
 
-        <div className="flex w-full flex-col items-center">
-          <Divider />
+        <Divider />
 
+        <article className="flex w-full flex-col items-center">
           <div className="w-full max-w-3xl px-16  font-extrabold text-gray-100">
             <h2 className="my-12 text-5xl sm:text-7xl">What are you doing?</h2>
             <p className="text-4xl sm:text-6xl">
@@ -70,6 +75,9 @@ export default function App() {
                 onClick={() => {
                   increment();
                   setCount((p) => p + 1);
+                }}
+                onKeyDown={(event) => {
+                  if (event.repeat) event.preventDefault();
                 }}
               >
                 <div
@@ -94,14 +102,14 @@ export default function App() {
                     "opacity-100": main !== undefined && count > 0,
                   })}
                 >
-                  them {main}
+                  world {main}
                 </div>
               </span>
             </div>
           </div>
-        </div>
-      </article>
-    </div>
+        </article>
+      </main>
+    </>
   );
 }
 
@@ -122,3 +130,10 @@ const Orange = ({ children }: ColorProps) => {
 const Divider = () => {
   return <span className="h-1 w-full bg-gray-900"></span>;
 };
+
+type FireworkProps = {
+  from: `${number},${number}`;
+  to: `${number},${number}`;
+};
+
+const Firework = ({ from, to }: FireworkProps) => {};

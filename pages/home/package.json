@@ -6,9 +6,7 @@
   "scripts": {
     "postinstall": "remix setup cloudflare",
     "build:vite": "vite build",
-    "upload": "pnpm build && run-p upload:*",
-    "upload:worker": "wrangler publish counter/worker.ts --name home-counter",
-    "upload:site": "wrangler pages publish ./public --project-name 1project-home",
+    "upload": "wrangler pages publish ./public --project-name 1project-home",
     "build": "NODE_ENV=production run-s build:css build:remix",
     "build:css": "unocss './app/**/*.{ts,tsx}' -m -o ./app/unocss.css",
     "build:remix": "NODE_ENV=production remix build",
@@ -37,7 +35,6 @@
     "@unocss/preset-typography": "^0.45.5",
     "@unocss/preset-wind": "^0.45.5",
     "@unocss/reset": "^0.45.5",
-    "ditty": "workspace:^1.0.0",
     "eslint": "^8.21.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",

@@ -40,7 +40,7 @@ export const ws = () => {
   };
 };
 
-export type DurableObjectNamespaceIs<ClassDO extends DurableObject> =
+export type DurableObjectNamespaceIs<ClassDO extends CallableDurableObject> =
   DurableObjectNamespace & { __type?: ClassDO & never };
 
 export type External<A extends Record<string, any>> = Extract<
@@ -50,7 +50,7 @@ export type External<A extends Record<string, any>> = Extract<
     ) => Promise<Response> | Response
       ? Key
       : never;
-  }[Exclude<keyof A, keyof DurableObject>],
+  }[Exclude<keyof A, keyof CallableDurableObject>],
   string
 >;
 
@@ -59,7 +59,7 @@ export type Client<ClassDO extends Record<string, any>> = {
   stub: DurableObjectStub;
 } & { __type?: ClassDO & never };
 
-export const client = <ClassDO extends DurableObject>(
+export const client = <ClassDO extends CallableDurableObject>(
   request: Request,
   ns: DurableObjectNamespaceIs<ClassDO>,
   name: string | DurableObjectId
@@ -94,11 +94,13 @@ export const call = <
   );
 };
 
-export const accept = async (request: Request): Promise<Response> => {
-  const url = new URL(request.url);
-  const [method, encodedArgs] = url.pathname.split("/").slice(1);
-  const args = JSON.parse(decodeURIComponent(encodedArgs));
+export class CallableDurableObject implements DurableObject {
+  async fetch(request: Request): Promise<Response> {
+    const url = new URL(request.url);
+    const [method, encodedArgs] = url.pathname.split("/").slice(1);
+    const args = JSON.parse(decodeURIComponent(encodedArgs));
 
-  // @ts-ignore Here we go!
-  return await this[method](...args);
-};
+    // @ts-ignore Here we go!
+    return await this[method](...args);
+  }
+}
