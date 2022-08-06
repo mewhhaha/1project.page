@@ -1,19 +1,19 @@
-import { createSessions, DurableObjectTemplate, init } from "ditty";
+import type { DurableObjectNamespaceIs } from "ditty";
+import { ws, accept, client, call } from "ditty";
 
 const COUNT_KEY = "count";
 
 export type Env = {
-  COUNTER_DO: DurableObjectNamespace;
+  COUNTER_DO: DurableObjectNamespaceIs<Counter>;
 };
 
-export class Counter extends DurableObjectTemplate {
-  sessions: ReturnType<typeof createSessions>;
-  storage: DurableObjectStorage;
-  count = 0;
+export class Counter {
+  private sessions: ReturnType<typeof ws>;
+  private storage: DurableObjectStorage;
+  private count = 0;
 
   constructor(state: DurableObjectState) {
-    super();
-    this.sessions = createSessions();
+    this.sessions = ws();
     this.storage = state.storage;
     state.blockConcurrencyWhile(async () => {
       const value = await this.storage.get<number>(COUNT_KEY);
@@ -23,8 +23,8 @@ export class Counter extends DurableObjectTemplate {
     });
   }
 
-  async connect() {
-    return await this.sessions.connect({
+  connect() {
+    return this.sessions.connect({
       onConnect: (websocket) => {
         websocket.send(this.count.toString());
       },
@@ -35,16 +35,18 @@ export class Counter extends DurableObjectTemplate {
       },
     });
   }
+
+  fetch = accept;
 }
 
 export default {
   fetch: async (request: Request, env: Env): Promise<Response> => {
     const url = new URL(request.url);
-    const main = () => init<Counter>(request, env.COUNTER_DO).get("main");
 
     switch (url.pathname) {
       case "/connect": {
-        return await main().call("connect");
+        const main = client(request, env.COUNTER_DO, "main");
+        return await call(main, "connect");
       }
     }
 
