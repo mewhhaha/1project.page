@@ -136,4 +136,6 @@ type FireworkProps = {
   to: `${number},${number}`;
 };
 
-const Firework = ({ from, to }: FireworkProps) => {};
+const Firework = ({ from, to }: FireworkProps) => {
+  return <>hello</>;
+};

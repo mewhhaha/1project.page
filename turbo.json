@@ -2,10 +2,20 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**", "public/build/**"]
+      "inputs": [
+        "package.json",
+        "index.ts",
+        "main.ts",
+        "app/*.tsx",
+        "app/*.ts",
+        "app/**/*.tsx",
+        "app/**/*.ts"
+      ],
+      "outputs": ["dist/**", "public/build/**"]
     },
     "upload": {
       "dependsOn": ["build"],
+      "inputs": [],
       "outputs": []
     }
   }

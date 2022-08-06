@@ -5,10 +5,10 @@
   "type": "module",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
-  "types": "./ditty.ts",
+  "types": "./index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild ditty.ts --target=es2020 --format=esm --bundle --outfile=dist/index.mjs"
+    "build": "esbuild index.ts --target=es2020 --format=esm --bundle --outfile=dist/index.mjs"
   },
   "keywords": [],
   "author": "",
