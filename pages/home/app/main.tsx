@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./routes";
-import "@unocss/reset/tailwind.css";
 import "uno.css";
 
 const el = document.getElementById("root");

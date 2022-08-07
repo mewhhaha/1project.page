@@ -5,14 +5,13 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "remix setup cloudflare",
-    "build:vite": "vite build",
     "upload": "wrangler pages publish ./public --project-name 1project-home",
     "build": "NODE_ENV=production run-s build:css build:remix",
     "build:css": "unocss './app/**/*.{ts,tsx}' -m -o ./app/unocss.css",
     "build:remix": "NODE_ENV=production remix build",
     "dev:remix": "NODE_ENV=development remix watch",
     "dev:css": "unocss './app/**/*.{ts,tsx}' -o ./app/unocss.css --watch",
-    "dev:wrangler": "NODE_ENV=development wrangler pages dev --live-reload ./public",
+    "dev:wrangler": "NODE_ENV=development wrangler pages dev ./public",
     "dev": "unocss './app/**/*.{ts,tsx}' -o ./app/unocss.css && NODE_ENV=development remix build && run-p \"dev:*\""
   },
   "keywords": [],
