@@ -67,7 +67,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="@dark:bg-black @dark:color-white color-black bg-white">
+      <body className="flex flex-col bg-black text-white">
         <Outlet />
         <ScrollRestoration />
         <Scripts nonce={nonce} />
