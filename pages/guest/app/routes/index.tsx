@@ -7,13 +7,14 @@ import type {
 import { json } from "@remix-run/cloudflare";
 import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
 import type { ChangeEventHandler, KeyboardEventHandler } from "react";
+import { useEffect } from "react";
 import { useMemo, useRef, useState } from "react";
 import { DomUtils, parseDocument } from "htmlparser2";
 import Prism from "prismjs";
 import "prismjs/components/prism-markup";
 import theme from "prismjs/themes/prism-tomorrow.css";
 import clsx from "clsx";
-import prettier, { BuiltInParser } from "prettier";
+import prettier from "prettier";
 
 // @ts-ignore No types for the parsers
 import htmlParser from "prettier/esm/parser-html.mjs";
@@ -178,12 +179,19 @@ export default function App() {
 }
 
 const New = () => {
+  const error = useActionData<ActionData>();
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
 
-  const error = useActionData<ActionData>();
-
   const [highlight, setHighlight] = useState("");
+
+  useEffect(() => {
+    if (textareaRef.current === null) return;
+    const value = localStorage.getItem(CONTENT_KEY) ?? "";
+    textareaRef.current.value = value;
+    setHighlight(markup(value));
+  }, []);
 
   const rows =
     Math.max(numberOfNewlines(textareaRef.current?.value ?? ""), 10) + 1;
@@ -216,15 +224,7 @@ const New = () => {
   const handleOnChange: ChangeEventHandler<HTMLTextAreaElement> = ({
     currentTarget,
   }) => {
-    const value = currentTarget.value;
-    const updated = Prism.highlight(
-      value[value.length - 1] === "\n" ? value + " " : value,
-      Prism.languages.markup,
-      "markup"
-    );
-
-    setHighlight(updated);
-
+    setHighlight(markup(currentTarget.value));
     sync();
   };
 
@@ -234,6 +234,7 @@ const New = () => {
     if (event.key.toUpperCase() === "S" && event.ctrlKey) {
       event.preventDefault();
       format();
+      localStorage.setItem(CONTENT_KEY, event.currentTarget.value);
     }
 
     if (
@@ -275,7 +276,7 @@ const New = () => {
           {error && <p>{error.message}</p>}
         </Form>
         <div
-          className="isolate h-full w-full bg-[url(/texture.svg)] p-4 text-black"
+          className="isolate h-full w-full bg-opacity-50 bg-[url(/plus.svg)] p-4 text-black"
           dangerouslySetInnerHTML={{ __html: textareaRef.current?.value ?? "" }}
         />
       </div>
@@ -297,7 +298,7 @@ const Article = ({ html }: ArticleProps) => {
 
   return (
     <article className="min-h-2xl relative isolate flex h-full w-full max-w-3xl flex-grow flex-col items-stretch rounded-md border-black bg-gradient-to-b from-white via-red-300 to-pink-200 p-4 text-black">
-      <div className="-z-1 absolute inset-0 m-4 bg-[url(/texture.svg)]"></div>
+      <div className="-z-1 absolute inset-0 m-4 bg-[url(/plus.svg)]"></div>
       <div
         className="-z-1 h-full w-full"
         dangerouslySetInnerHTML={{ __html: html }}
@@ -378,4 +379,12 @@ const validate = (s: string): true | string => {
     }
     return "unknown error";
   }
+};
+
+const markup = (value: string) => {
+  return Prism.highlight(
+    value[value.length - 1] === "\n" ? value + " " : value,
+    Prism.languages.markup,
+    "markup"
+  );
 };
