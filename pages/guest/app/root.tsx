@@ -71,6 +71,7 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts nonce={nonce} />
+        <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js" />
         <LiveReload />
       </body>
     </html>

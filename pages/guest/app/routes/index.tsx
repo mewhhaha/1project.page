@@ -15,7 +15,6 @@ import "prismjs/components/prism-markup";
 import theme from "prismjs/themes/prism-tomorrow.css";
 import clsx from "clsx";
 import prettier from "prettier";
-import unocss from "@unocss/runtime";
 
 // @ts-ignore No types for the parsers
 import htmlParser from "prettier/esm/parser-html.mjs";
@@ -125,10 +124,6 @@ export const action: ActionFunction = async ({
 
 export default function App() {
   const articles = useLoaderData<LoaderData>();
-
-  useEffect(() => {
-    unocss();
-  }, []);
 
   return (
     <>
