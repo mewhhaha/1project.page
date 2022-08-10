@@ -74,11 +74,13 @@ export default function App() {
       <body className="flex flex-col bg-black text-white">
         <Outlet />
         <ScrollRestoration nonce={nonce} />
-        <Scripts nonce={nonce} />
         <script
+          async
+          type="module"
           src="https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js"
           nonce={nonce}
         />
+        <Scripts nonce={nonce} />
         <LiveReload />
       </body>
     </html>
