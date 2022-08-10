@@ -204,7 +204,6 @@ const New = () => {
       printWidth: 55,
     });
     if (formatted === "") return;
-    console.log(formatted);
     document.execCommand("selectAll", false);
     document.execCommand("insertText", false, formatted);
     textareaRef.current.selectionStart = start;
@@ -241,8 +240,6 @@ const New = () => {
       document.execCommand("insertText", false, "\n");
     }
   };
-
-  console.log(error);
 
   return (
     <div className="mt-12 w-full max-w-3xl bg-gradient-to-b from-white via-red-300 to-pink-200 p-4 shadow-xl md:rounded-md xl:max-w-6xl">
