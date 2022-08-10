@@ -52,12 +52,9 @@ export const loader: LoaderFunction = async ({
     })
   );
 
-  const [first, ...rest] = articles;
-  if (first === undefined)
-    return [
-      [
-        "0",
-        `
+  const first: [string, string] = [
+    "0",
+    `
 <div class="m-4 bg-white rounded shadow-lg p-4">
   <h1
     class="font-extrabold mb-10 text-4xl text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-red-500 to-purple-200"
@@ -88,10 +85,9 @@ export const loader: LoaderFunction = async ({
   </p>
 </div>
 `,
-      ],
-    ];
+  ];
 
-  return [first, ...rest];
+  return [first, ...articles];
 };
 
 type ActionData = { message: string } | null;
