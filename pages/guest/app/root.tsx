@@ -66,14 +66,14 @@ export default function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta
           httpEquiv="Content-Security-Policy"
-          content={`default-src 'self'; img-src 'self' https: data:; style-src 'self' https:; font-src 'self' https:; child-src 'none'; script-src 'unsafe-inline' 'strict-dynamic' 'nonce-${nonce}';`}
-        ></meta>
+          content={`default-src 'self'; img-src 'self' https: data:; style-src 'unsafe-inline' 'self' https:; font-src 'self' https:; child-src 'none'; script-src 'unsafe-inline' 'strict-dynamic' 'nonce-${nonce}';`}
+        />
         <Meta />
         <Links />
       </head>
       <body className="flex flex-col bg-black text-white">
         <Outlet />
-        <ScrollRestoration />
+        <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
         <script
           src="https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js"

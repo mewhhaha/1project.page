@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "remix setup cloudflare",
     "upload": "wrangler pages publish ./public --project-name 1project-guest",
-    "build": "NODE_ENV=production run-s build:css build:remix",
+    "build": "NODE_ENV=production run-s build:css build:remix build:x-ray",
     "build:css": "unocss './app/**/*.{ts,tsx}' -m -o ./app/unocss.css",
     "build:remix": "NODE_ENV=production remix build",
     "build:x-ray": "cp app/routes/index.tsx public/index.txt",
@@ -27,10 +27,10 @@
     "@remix-run/eslint-config": "^1.6.7",
     "@remix-run/react": "^1.6.7",
     "@remix-run/server-runtime": "^1.6.7",
-    "@types/node": "^18.6.4",
+    "@types/node": "^18.6.5",
     "@types/prettier": "^2.7.0",
     "@types/prismjs": "^1.26.0",
-    "@types/react": "^18.0.15",
+    "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@unocss/cli": "^0.45.5",
     "@unocss/preset-icons": "^0.45.5",
@@ -44,7 +44,7 @@
     "prettier-plugin-tailwindcss": "^0.1.13",
     "remix": "^1.6.7",
     "typescript": "^4.7.4",
-    "wrangler": "^2.0.24"
+    "wrangler": "^2.0.25"
   },
   "dependencies": {
     "@unocss/runtime": "^0.45.5",

@@ -9,7 +9,6 @@ import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
 import type { ChangeEventHandler, KeyboardEventHandler } from "react";
 import { useEffect } from "react";
 import { useMemo, useRef, useState } from "react";
-import HtmlToReactParser from "html-to-react";
 import { DomUtils, parseDocument } from "htmlparser2";
 import Prism from "prismjs";
 import "prismjs/components/prism-markup";
@@ -19,8 +18,10 @@ import prettier from "prettier";
 
 // @ts-ignore No types for the parsers
 import htmlParser from "prettier/esm/parser-html.mjs";
+// @ts-ignore No types for this library
+import { Parser } from "html-to-react";
 
-const parser = new HtmlToReactParser();
+const parser = new Parser();
 const MAX_LENGTH = 2000;
 const MIN_LENGTH = 140;
 const CONTENT_KEY = "content";
@@ -291,16 +292,21 @@ type ArticleProps = {
 
 const Article = ({ html }: ArticleProps) => {
   const [show, setShow] = useState(false);
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    setContent(html);
+  }, [html]);
 
   const highlight = useMemo(
-    () => Prism.highlight(html, Prism.languages.markup, "markup"),
-    [html]
+    () => Prism.highlight(content, Prism.languages.markup, "markup"),
+    [content]
   );
 
   return (
     <article className="min-h-2xl relative isolate flex h-full w-full max-w-3xl flex-grow flex-col items-stretch rounded-md border-black bg-gradient-to-b from-white via-red-300 to-pink-200 p-4 text-black">
       <div className="-z-1 absolute inset-0 m-4 bg-[url(/plus.svg)]"></div>
-      <div className="-z-1 h-full w-full">{parser.parse(html)}</div>
+      <div className="-z-1 h-full w-full">{parser.parse(content)}</div>
 
       <pre
         className={clsx(

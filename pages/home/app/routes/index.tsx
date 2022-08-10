@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useWebSocket } from "../hooks";
@@ -36,9 +37,12 @@ export default function App() {
   return (
     <>
       <header className="z-1 relative isolate w-full">
-        <div className="absolute top-2 right-2">
+        <div className="absolute top-2 right-2 flex space-x-4">
+          <Link to="x-ray" aria-label="x-ray">
+            <div className="i-carbon:magnify color-white h-10 w-10 shadow-xl" />
+          </Link>
           <a
-            href="https://github.com/mewhhaha/1projectpage"
+            href="https://github.com/mewhhaha/1projectpage/tree/main/pages/home"
             aria-label="Github"
           >
             <div className="i-carbon:logo-github color-white h-10 w-10 shadow-xl" />
