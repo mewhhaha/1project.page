@@ -13,7 +13,7 @@ type LoaderData = string;
 export const loader: LoaderFunction = async ({
   request,
 }): Promise<LoaderData> => {
-  const response = await fetch(`${new URL(request.url).origin}/index.tsx`, {
+  const response = await fetch(`${new URL(request.url).origin}/index.txt`, {
     headers: { "Content-Type": "text/plain" },
   });
 

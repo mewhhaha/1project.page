@@ -110,10 +110,13 @@ export const action: ActionFunction = async ({
     return json({ message: "content must be of type string" }, 422);
 
   if (content.length > MAX_LENGTH)
-    return `must be at most ${MAX_LENGTH} characters long`;
+    return json(
+      { message: `must be at most ${MAX_LENGTH} characters long` },
+      422
+    );
 
   if (content.length < MIN_LENGTH)
-    return `must be at least ${MIN_LENGTH} characters long`;
+    return json({ message: `must be at least ${MIN_LENGTH} characters long` });
   const date = (Number.MAX_SAFE_INTEGER - Date.now()).toString();
 
   const valid = validate(content);
@@ -248,6 +251,8 @@ const New = () => {
     }
   };
 
+  console.log(error);
+
   return (
     <div className="mt-12 w-full max-w-3xl bg-gradient-to-b from-white via-red-300 to-pink-200 p-4 shadow-xl md:rounded-md xl:max-w-6xl">
       <div className="grid h-full w-full grid-cols-1 grid-rows-2 xl:grid-cols-2 xl:grid-rows-1">
@@ -275,8 +280,12 @@ const New = () => {
               </pre>
             </div>
             <button type="submit">Submit</button>
+            {error && (
+              <p className="text-red bg-black text-center font-medium">
+                {error.message}
+              </p>
+            )}
           </div>
-          {error && <p>{error.message}</p>}
         </Form>
         <div
           className="isolate h-full w-full bg-opacity-50 bg-[url(/plus.svg)] p-4 text-black"
@@ -293,11 +302,6 @@ type ArticleProps = {
 
 const Article = ({ html }: ArticleProps) => {
   const [show, setShow] = useState(false);
-  const [value, setValue] = useState("");
-
-  useEffect(() => {
-    setValue(html);
-  }, [html]);
 
   const highlight = useMemo(
     () => Prism.highlight(html, Prism.languages.markup, "markup"),
@@ -309,7 +313,7 @@ const Article = ({ html }: ArticleProps) => {
       <div className="-z-1 absolute inset-0 m-4 bg-[url(/plus.svg)]"></div>
       <div
         className="-z-1 h-full w-full"
-        dangerouslySetInnerHTML={{ __html: value }}
+        dangerouslySetInnerHTML={{ __html: html }}
       />
 
       <pre

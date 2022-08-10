@@ -9,7 +9,7 @@
     "build": "NODE_ENV=production run-s build:css build:remix",
     "build:css": "unocss './app/**/*.{ts,tsx}' -m -o ./app/unocss.css",
     "build:remix": "NODE_ENV=production remix build",
-    "build:x-ray": "cp app/routes/index.tsx public/index.tsx",
+    "build:x-ray": "cp app/routes/index.tsx public/index.txt",
     "dev:remix": "NODE_ENV=development remix watch",
     "dev:css": "unocss './app/**/*.{ts,tsx}' -o ./app/unocss.css --watch",
     "dev:wrangler": "NODE_ENV=development wrangler pages dev ./public --kv CONTENT_KV",
