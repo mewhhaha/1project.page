@@ -38,6 +38,7 @@
     "@unocss/preset-wind": "^0.45.5",
     "@unocss/reset": "^0.45.5",
     "eslint": "^8.21.0",
+    "html-to-react": "^1.5.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",

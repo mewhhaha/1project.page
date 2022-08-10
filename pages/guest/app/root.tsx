@@ -49,8 +49,8 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = () => {
-  const nonce = [...crypto.getRandomValues(new Uint8Array(32))]
-    .map((x) => String.fromCharCode(x))
+  const nonce = [...crypto.getRandomValues(new Uint8Array(16))]
+    .map((x) => x.toString())
     .join("");
 
   return nonce;
@@ -64,6 +64,10 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content={`default-src 'self'; img-src 'self' https: data:; style-src 'self' https:; font-src 'self' https:; child-src 'none'; script-src 'unsafe-inline' 'strict-dynamic' 'nonce-${nonce}';`}
+        ></meta>
         <Meta />
         <Links />
       </head>
@@ -71,7 +75,10 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts nonce={nonce} />
-        <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js" />
+        <script
+          src="https://cdn.jsdelivr.net/npm/@unocss/runtime/uno.global.js"
+          nonce={nonce}
+        />
         <LiveReload />
       </body>
     </html>

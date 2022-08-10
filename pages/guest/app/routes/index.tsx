@@ -9,6 +9,7 @@ import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
 import type { ChangeEventHandler, KeyboardEventHandler } from "react";
 import { useEffect } from "react";
 import { useMemo, useRef, useState } from "react";
+import HtmlToReactParser from "html-to-react";
 import { DomUtils, parseDocument } from "htmlparser2";
 import Prism from "prismjs";
 import "prismjs/components/prism-markup";
@@ -19,6 +20,7 @@ import prettier from "prettier";
 // @ts-ignore No types for the parsers
 import htmlParser from "prettier/esm/parser-html.mjs";
 
+const parser = new HtmlToReactParser();
 const MAX_LENGTH = 2000;
 const MIN_LENGTH = 140;
 const CONTENT_KEY = "content";
@@ -264,7 +266,7 @@ const New = () => {
                 aria-hidden
                 className="pointer-events-none absolute inset-0 select-none overflow-auto whitespace-pre px-2"
               >
-                <code dangerouslySetInnerHTML={{ __html: highlight }} />
+                <code>{parser.parse(highlight)}</code>
               </pre>
             </div>
             <button type="submit">Submit</button>
@@ -275,10 +277,9 @@ const New = () => {
             )}
           </div>
         </Form>
-        <div
-          className="isolate h-full w-full bg-opacity-50 bg-[url(/plus.svg)] p-4 text-black"
-          dangerouslySetInnerHTML={{ __html: textareaRef.current?.value ?? "" }}
-        />
+        <div className="isolate h-full w-full bg-opacity-50 bg-[url(/plus.svg)] p-4 text-black">
+          {parser.parse(textareaRef.current?.value ?? "")}
+        </div>
       </div>
     </div>
   );
@@ -299,10 +300,7 @@ const Article = ({ html }: ArticleProps) => {
   return (
     <article className="min-h-2xl relative isolate flex h-full w-full max-w-3xl flex-grow flex-col items-stretch rounded-md border-black bg-gradient-to-b from-white via-red-300 to-pink-200 p-4 text-black">
       <div className="-z-1 absolute inset-0 m-4 bg-[url(/plus.svg)]"></div>
-      <div
-        className="-z-1 h-full w-full"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <div className="-z-1 h-full w-full">{parser.parse(html)}</div>
 
       <pre
         className={clsx(
@@ -318,7 +316,7 @@ const Article = ({ html }: ArticleProps) => {
             s
           </button>
         )}
-        <code dangerouslySetInnerHTML={{ __html: highlight }} />
+        <code>{parser.parse(highlight)}</code>
       </pre>
     </article>
   );
