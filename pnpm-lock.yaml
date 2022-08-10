@@ -36,6 +36,7 @@ importers:
       '@unocss/preset-typography': ^0.45.5
       '@unocss/preset-wind': ^0.45.5
       '@unocss/reset': ^0.45.5
+      '@unocss/runtime': ^0.45.5
       clsx: ^1.2.1
       eslint: ^8.21.0
       htmlparser2: ^8.0.1
@@ -49,6 +50,7 @@ importers:
       typescript: ^4.7.4
       wrangler: ^2.0.24
     dependencies:
+      '@unocss/runtime': 0.45.5
       clsx: 1.2.1
       htmlparser2: 8.0.1
       prismjs: 1.28.0
@@ -2336,7 +2338,12 @@ packages:
 
   /@unocss/core/0.45.5:
     resolution: {integrity: sha512-6boP8sGTRb+nE87pdjii7otO/tguIlDkFh90E6mglA0XdjHWiLCCNlgJoxgjCGCPNYUm/Nojx0bUbcokuqBZDw==}
-    dev: true
+
+  /@unocss/preset-attributify/0.45.5:
+    resolution: {integrity: sha512-xgjsuYDB5EYqXaCa73B9Tk19y6U8482S/trf6kcbSSGLaEcXhOQMdo8xtUJPyacwoCG0ralCgWIgWeb/VQ0noQ==}
+    dependencies:
+      '@unocss/core': 0.45.5
+    dev: false
 
   /@unocss/preset-icons/0.45.5:
     resolution: {integrity: sha512-msrhKKEWh5HMyQXnseKjMTe8dZZZl/URaxCtDkIhzGJHzDvTAiU7kDr6pAr3Uxw2DgDEviq159W22679JyaBHg==}
@@ -2352,7 +2359,6 @@ packages:
     resolution: {integrity: sha512-R8FDinKThZBTIqwuYokI8GHOTxt8x11W/dY4wyXOFXXiGW2kmL7fjhB3KNN3sfyhyp+k2g5CW40XJ13rOunODw==}
     dependencies:
       '@unocss/core': 0.45.5
-    dev: true
 
   /@unocss/preset-typography/0.45.5:
     resolution: {integrity: sha512-4F2hRDsuE8BCA0MZIaRjClXIVQkePQsQyz+s3qw89Fndeatj+Yd5VrKEPBBz3g9062A6dUGfgWUyy4o+SAOCvA==}
@@ -2366,18 +2372,24 @@ packages:
       '@unocss/core': 0.45.5
       '@unocss/preset-mini': 0.45.5
       '@unocss/preset-wind': 0.45.5
-    dev: true
 
   /@unocss/preset-wind/0.45.5:
     resolution: {integrity: sha512-N4kr5SG4WjqJ4hI+4Fp8QlB5u7pTtAGY1WDVPeKwh3lX2iE01BnQhL6W6ds7BjXSdGm/yUQwBCedpnAfzWqutQ==}
     dependencies:
       '@unocss/core': 0.45.5
       '@unocss/preset-mini': 0.45.5
-    dev: true
 
   /@unocss/reset/0.45.5:
     resolution: {integrity: sha512-JDFRoc1H0Tk1knRGI+LljOKrKkWrF1txJ50DG3oa+azTdQaX0wDQ4isyDM6PbodydhEqYCsZcJEL/2pEiPRg8A==}
     dev: true
+
+  /@unocss/runtime/0.45.5:
+    resolution: {integrity: sha512-vVKHBy4qHvPI3srF73yaZNhUmXWD4YGQYn5q/5v5PHkhDe2lacs9NdAFuK0+40LhrE1GjZyj/mjImstLQBOpoA==}
+    dependencies:
+      '@unocss/core': 0.45.5
+      '@unocss/preset-attributify': 0.45.5
+      '@unocss/preset-uno': 0.45.5
+    dev: false
 
   /@web3-storage/multipart-parser/1.0.0:
     resolution: {integrity: sha512-BEO6al7BYqcnfX15W2cnGR+Q566ACXAT9UQykORCWW80lmkpWsnEob6zJS1ZVBKsSJC8+7vJkHwlp+lXG1UCdw==}

@@ -15,6 +15,7 @@ import "prismjs/components/prism-markup";
 import theme from "prismjs/themes/prism-tomorrow.css";
 import clsx from "clsx";
 import prettier from "prettier";
+import unocss from "@unocss/runtime";
 
 // @ts-ignore No types for the parsers
 import htmlParser from "prettier/esm/parser-html.mjs";
@@ -56,7 +57,8 @@ export const loader: LoaderFunction = async ({
     return [
       [
         "0",
-        `<div class="m-4 bg-white rounded shadow-lg p-4">
+        `
+<div class="m-4 bg-white rounded shadow-lg p-4">
   <h1
     class="font-extrabold mb-10 text-4xl text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-red-500 to-purple-200"
   >
@@ -122,15 +124,16 @@ export const action: ActionFunction = async ({
   return null;
 };
 
-// This is the CSS runtime that allows us to use classnames in the user generated content
-
 export default function App() {
   const articles = useLoaderData<LoaderData>();
+
+  useEffect(() => {
+    unocss();
+  }, []);
 
   return (
     <>
       <header className="z-1 relative isolate w-full">
-        <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime" />
         <div className="absolute top-2 right-2 flex space-x-4">
           <Link to="x-ray" aria-label="x-ray">
             <div className="i-carbon:magnify color-white h-10 w-10 shadow-xl" />
@@ -290,6 +293,11 @@ type ArticleProps = {
 
 const Article = ({ html }: ArticleProps) => {
   const [show, setShow] = useState(false);
+  const [value, setValue] = useState("");
+
+  useEffect(() => {
+    setValue(html);
+  }, [html]);
 
   const highlight = useMemo(
     () => Prism.highlight(html, Prism.languages.markup, "markup"),
@@ -301,7 +309,7 @@ const Article = ({ html }: ArticleProps) => {
       <div className="-z-1 absolute inset-0 m-4 bg-[url(/plus.svg)]"></div>
       <div
         className="-z-1 h-full w-full"
-        dangerouslySetInnerHTML={{ __html: html }}
+        dangerouslySetInnerHTML={{ __html: value }}
       />
 
       <pre

@@ -46,6 +46,7 @@
     "wrangler": "^2.0.24"
   },
   "dependencies": {
+    "@unocss/runtime": "^0.45.5",
     "clsx": "^1.2.1",
     "htmlparser2": "^8.0.1",
     "prismjs": "^1.28.0",
