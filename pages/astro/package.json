@@ -1,0 +1,22 @@
+{
+  "name": "astro",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "upload": "wrangler pages publish ./dist --project-name 1project-astro"
+  },
+  "devDependencies": {
+    "@astrojs/cloudflare": "^1.0.1",
+    "@astrojs/tailwind": "^1.0.0",
+    "@unocss/cli": "^0.45.5",
+    "@unocss/preset-wind": "^0.45.5",
+    "@unocss/reset": "^0.45.5",
+    "astro": "^1.0.1",
+    "wrangler": "^2.0.25"
+  }
+}
