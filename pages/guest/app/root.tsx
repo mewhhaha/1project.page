@@ -59,17 +59,19 @@ export const loader: LoaderFunction = () => {
 export default function App() {
   const nonce = useLoaderData<string>();
 
+  const ws = process.env.NODE_ENV === "production" ? "" : " connect-src *;";
+
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content={`default-src 'self'; img-src 'self' https: data:; style-src 'unsafe-inline' 'self' https:; font-src 'self' https:; child-src 'none'; script-src 'unsafe-inline' 'strict-dynamic' 'nonce-${nonce}';`}
-        />
         <Meta />
         <Links />
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content={`default-src 'self'; img-src 'self' https: data:; style-src 'unsafe-inline' 'self' https:;${ws} font-src 'self' https:; child-src 'none'; script-src 'unsafe-inline' 'strict-dynamic' 'nonce-${nonce}';`}
+        />
       </head>
       <body className="flex flex-col bg-black text-white">
         <Outlet />
@@ -81,7 +83,7 @@ export default function App() {
           nonce={nonce}
         />
         <Scripts nonce={nonce} />
-        <LiveReload />
+        <LiveReload nonce={nonce} />
       </body>
     </html>
   );
