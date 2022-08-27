@@ -1,4 +1,5 @@
 export const ws = () => {
+  let self: WebSocket;
   let sessions: WebSocket[] = [];
   return {
     disconnect: (websocket: WebSocket) => {
@@ -21,14 +22,22 @@ export const ws = () => {
       sessions.push(websocket);
 
       onConnect?.(pair[1]);
+      self = pair[1];
 
       websocket.addEventListener("message", (msg) => onMessage?.(pair[1], msg));
 
       return new Response(null, { status: 101, webSocket: pair[0] });
     },
 
-    broadcast: (message: string) => {
+    broadcast: (
+      message: string,
+      options: { skipSelf: boolean } = { skipSelf: false }
+    ) => {
       sessions = sessions.filter((session) => {
+        if (options.skipSelf && session === self) {
+          return true;
+        }
+
         try {
           session.send(message);
           return true;

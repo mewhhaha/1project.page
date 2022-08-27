@@ -57,7 +57,7 @@ export class Counter extends CallableDurableObject {
           for (const [key, value] of Object.entries(updates)) {
             this.storage.put(key, value);
           }
-          this.sessions.broadcast(JSON.stringify(updates));
+          this.sessions.broadcast(JSON.stringify(updates), { skipSelf: true });
           updates = {};
         };
 
