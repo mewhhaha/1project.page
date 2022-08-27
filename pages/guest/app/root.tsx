@@ -19,7 +19,6 @@ export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: reset },
     { rel: "stylesheet", href: styles },
-    { rel: "stylesheet", href: "https://rsms.me/inter/inter.css" },
     {
       rel: "apple-touch-icon",
       sizes: "180x180",

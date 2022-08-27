@@ -1,10 +1,11 @@
+import type { NodeTooltipProps } from "@nivo/network";
+import { ResponsiveNetwork } from "@nivo/network";
 import { Link } from "@remix-run/react";
-import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useWebSocket } from "../hooks";
 
-const useCounter = () => {
-  const [count, setCount] = useState<number>(0);
+const useBag = () => {
+  const [count, setCount] = useState<Record<string, number>>({});
   const [socket, status] = useWebSocket(
     "wss://home-counter.horrible.workers.dev/connect",
     {
@@ -16,8 +17,8 @@ const useCounter = () => {
   useEffect(() => {
     if (socket === undefined) return;
     socket.onmessage = (event) => {
-      const next = Number.parseInt(event.data);
-      setCount(next);
+      const next = JSON.parse(event.data);
+      setCount((p) => ({ ...p, ...next }));
     };
   }, [socket]);
 
@@ -31,8 +32,7 @@ const useCounter = () => {
 };
 
 export default function App() {
-  const [main, increment] = useCounter();
-  const [count, setCount] = useState(0);
+  const [bag, increment] = useBag();
 
   return (
     <>
@@ -64,58 +64,74 @@ export default function App() {
         <Divider />
 
         <article className="flex w-full flex-col items-center">
-          <div className="w-full max-w-3xl px-16  font-extrabold text-gray-100">
+          <div className="mb-12 w-full max-w-3xl  px-16 font-extrabold text-gray-100">
             <h2 className="my-12 text-5xl sm:text-7xl">What are you doing?</h2>
             <p className="text-4xl sm:text-6xl">
               Every <Orange>page</Orange> will be its own little{" "}
               <Red>experiment</Red>. <br />
               Starting with <Green>this button.</Green>
             </p>
+          </div>
 
-            <div className="mt-24 mb-10 flex flex-col items-center rounded-md border-2 border-gray-600 py-10 px-4">
-              <button
-                type="button"
-                className="inline-flex items-center rounded-md border border-transparent px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95"
-                onClick={() => {
-                  increment();
-                  setCount((p) => p + 1);
-                }}
-                onKeyDown={(event) => {
-                  if (event.repeat) event.preventDefault();
-                }}
-              >
-                <div
-                  className="i-carbon:cafe -ml-1 mr-3 h-5 w-5"
-                  aria-hidden="true"
-                />
-                Click me
-              </button>
-              <span className="flex flex-col items-center pt-2 text-3xl">
-                <div
-                  className={clsx(
-                    "duration-800 transition-opacity",
-                    count > 0 ? "opacity-100" : "opacity-20"
-                  )}
-                >
-                  you {count}
-                </div>
-
-                <div
-                  className={clsx("duration-600 transition-opacity", {
-                    "opacity-20": main !== undefined && count === 0,
-                    "opacity-100": main !== undefined && count > 0,
-                  })}
-                >
-                  world {main}
-                </div>
-              </span>
-            </div>
+          <div className="relative flex w-full max-w-3xl justify-center">
+            <button
+              type="button"
+              className="inline-flex items-center rounded-md border border-transparent bg-black px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95"
+              onClick={increment}
+              onKeyDown={(event) => {
+                if (event.repeat) event.preventDefault();
+              }}
+            >
+              <div
+                className="i-carbon:cafe -ml-1 mr-3 h-5 w-5"
+                aria-hidden="true"
+              />
+              Click me
+            </button>
+            <hr className="-z-1 absolute top-1/2 w-full" />
+          </div>
+          <div className="h-3xl w-full">
+            <ResponsiveNetwork
+              data={toNetwork(bag)}
+              linkDistance={(l) => l.distance}
+              centeringStrength={Math.random() * 0.5 + 1.5}
+              repulsivity={Math.random() * 20 + 20}
+              nodeSize={(n) => (n.id === "root" ? 50 : nodeShowSize(n))}
+              activeNodeSize={(n) => nodeShowSize(n) * 1.5}
+              inactiveNodeSize={12}
+              nodeColor={(n) => n.color}
+              nodeBorderWidth={1}
+              nodeBorderColor={{
+                from: "color",
+                modifiers: [["darker", 0.8]],
+              }}
+              nodeTooltip={NodeTooltip}
+              linkThickness={(l) => 2 + 2 * l.target.data.height}
+              linkBlendMode="multiply"
+              motionConfig="wobbly"
+            />
           </div>
         </article>
       </main>
     </>
   );
 }
+
+const clamp = (min: number, max: number, value: number) =>
+  Math.max(Math.min(max, value), min);
+const nodeShowSize = (n: NetworkNode) => clamp(5, n.height * 10, n.size);
+
+const NodeTooltip = ({
+  node: {
+    data: { id, size },
+  },
+}: NodeTooltipProps<NetworkNode>) => {
+  return (
+    <div className="bg-white px-4 py-2 text-black">
+      {id.split(".").at(-1)}: {size}
+    </div>
+  );
+};
 
 type ColorProps = { children: React.ReactNode };
 
@@ -133,4 +149,76 @@ const Orange = ({ children }: ColorProps) => {
 
 const Divider = () => {
   return <span className="h-1 w-full bg-gray-900"></span>;
+};
+
+type NetworkNode = {
+  id: string;
+  height: number;
+  size: number;
+  color: `rgb(${number}, ${number}, ${number})`;
+};
+
+type NetworkLink = {
+  source: string;
+  target: string;
+  distance: number;
+};
+
+const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+
+const toNetwork = (
+  bag: Record<string, number>
+): { nodes: NetworkNode[]; links: NetworkLink[] } => {
+  const entries: [string, number][] = Object.entries(bag).map(
+    ([key, value]) => {
+      const segments = key.split(".");
+      segments[0] = regionNames.of(segments[0]) ?? segments[0];
+
+      return [segments.join("."), value];
+    }
+  );
+
+  const nodes: NetworkNode[] = entries.map(([id, value]) => {
+    const segments = id.split(".");
+    const segment = segments.at(-1);
+
+    return {
+      id,
+      height: 5 - segments.length,
+      size: value,
+      color:
+        segment === "1"
+          ? "rgb(239, 68, 68)"
+          : segment === "0"
+          ? "rgb(59, 130, 246)"
+          : "rgb(249, 115, 22)",
+    };
+  });
+
+  const links: NetworkLink[] = entries.map(([id]) => {
+    const segments = id.split(".");
+    const source = segments.slice(0, -1).join(".") || "root";
+    return {
+      source,
+      target: id,
+      distance: (6 - segments.length) * 20,
+    };
+  });
+
+  const sum = nodes.reduce((acc, n) => {
+    const x = n.id.split(".").length === 1 ? n.size : 0;
+    return acc + x;
+  }, 0);
+
+  nodes.push({
+    id: "root",
+    height: 5,
+    size: sum,
+    color: "rgb(34, 197, 94)",
+  });
+
+  return {
+    nodes,
+    links,
+  };
 };

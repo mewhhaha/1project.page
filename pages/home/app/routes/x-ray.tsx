@@ -40,7 +40,7 @@ export default function App() {
           </a>
         </div>
       </header>
-      <main className="isolate flex flex-grow flex-col overflow-auto px-4 pb-4">
+      <main className="isolate flex flex-grow flex-col overflow-auto px-4 pb-4 text-white">
         <pre>
           <code dangerouslySetInnerHTML={{ __html: code }} />
         </pre>

@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./routes";
 import "uno.css";
+import ResizeObserverPolyfill from "resize-observer-polyfill";
 
-const el = document.getElementById("root");
-if (el === null) {
-  throw new Error("root must exist");
+if (typeof window === "undefined") {
+  global.ResizeObserver = ResizeObserverPolyfill;
 }
 
-ReactDOM.createRoot(el).render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>

@@ -12,11 +12,18 @@
   },
   "devDependencies": {
     "@astrojs/cloudflare": "^1.0.1",
+    "@astrojs/react": "^1.0.0",
+    "@astrojs/solid-js": "^1.0.0",
     "@astrojs/tailwind": "^1.0.0",
-    "@unocss/cli": "^0.45.5",
-    "@unocss/preset-wind": "^0.45.5",
-    "@unocss/reset": "^0.45.5",
-    "astro": "^1.0.1",
-    "wrangler": "^2.0.25"
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@unocss/cli": "^0.45.12",
+    "@unocss/preset-wind": "^0.45.12",
+    "@unocss/reset": "^0.45.12",
+    "astro": "^1.0.8",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "solid-js": "^1.4.3",
+    "wrangler": "^2.0.27"
   }
 }
