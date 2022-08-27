@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "upload": "wrangler pages publish ./dist --project-name 1project-astro"
+    "upload": "wrangler pages publish ./dist --project-name 1project-hero"
   },
   "devDependencies": {
     "@astrojs/cloudflare": "^1.0.1",
