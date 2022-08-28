@@ -1,0 +1,554 @@
+---
+import Polaroid from "../components/Polaroid.astro";
+import Layout from "../layouts/Layout.astro";
+
+const polaroids = [
+  {
+    src: "/images/feed-woman.png",
+    alt: "hand feeding bread to woman red lips",
+  },
+  {
+    src: "/images/feed-crocodile.png",
+    alt: "hand feeding bread to woman crocodile",
+  },
+  {
+    src: "/images/feed-fish.png",
+    alt: "hand feeding bread to woman fish underwater",
+  },
+  { src: "/images/feed-prison.png", alt: "hand feeding bread to prison bars" },
+  { src: "/images/feed-sun.png", alt: "hand feeding bread to the sun" },
+].reverse();
+
+const testimonies = [
+  {
+    background: "bg-[url('/images/testimony-blind.png')]",
+    quote:
+      "Hi, is this 911? I'm living next to trashcan and somebody keeps handing me bread. Please send someone!",
+    avatar: "/images/profile-person.png",
+    name: "Anonymous blind person",
+    alt: "web avatar photo in style of 1600 painting",
+  },
+  {
+    background: "bg-[url('/images/testimony-unicorn.png')]",
+    quote:
+      "It wasn't always like this. I don't know where they came from. This is going to bring about the extinction of my race.",
+    avatar: "/images/profile-unicorn.png",
+    name: "Anonymous unicorn",
+    alt: "macro 100mm photo of happy unicorn receiving bread from hand",
+  },
+  {
+    background: "bg-[url('/images/testimony-hand.png')]",
+    quote: "Pretty handy, so far.",
+    avatar: "/images/profile-hand.png",
+    name: "Anonymous floating hand",
+    alt: "photo of hand smoking noir centered in middle",
+  },
+];
+
+testimonies.push(testimonies[0] as any);
+
+type Namespace = {
+  id: number;
+  text: string;
+};
+
+type Titles = {
+  canonical: string;
+  normalized: string;
+  display: string;
+};
+
+type Thumbnail = {
+  source: string;
+  width: number;
+  height: number;
+};
+
+type Originalimage = {
+  source: string;
+  width: number;
+  height: number;
+};
+
+type Desktop = {
+  page: string;
+  revisions: string;
+  edit: string;
+  talk: string;
+};
+
+type Mobile = {
+  page: string;
+  revisions: string;
+  edit: string;
+  talk: string;
+};
+
+type ContentUrls = {
+  desktop: Desktop;
+  mobile: Mobile;
+};
+
+type WikiSummary = {
+  type: string;
+  title: string;
+  displaytitle: string;
+  namespace: Namespace;
+  wikibase_item: string;
+  titles: Titles;
+  pageid: number;
+  thumbnail: Thumbnail;
+  originalimage: Originalimage;
+  lang: string;
+  dir: string;
+  revision: string;
+  tid: string;
+  timestamp: Date;
+  content_urls: ContentUrls;
+  extract: string;
+  extract_html: string;
+};
+
+const read = async (link: string): Promise<WikiSummary> => {
+  const response = await fetch(link);
+  return response.json();
+};
+
+const breads: [string, WikiSummary][] = [
+  [
+    "Korovai",
+    await read("https://en.wikipedia.org/api/rest_v1/page/summary/Korovai"),
+  ],
+  [
+    "Crispbread",
+    await read("https://en.wikipedia.org/api/rest_v1/page/summary/Crispbread"),
+  ],
+  [
+    "T'anta Wawa",
+    await read(
+      "https://en.wikipedia.org/api/rest_v1/page/summary/T%27anta_wawa"
+    ),
+  ],
+];
+---
+
+<Layout title="1 Project Bread">
+  <header class="flex w-full top-0 left-0 right-0 sticky z-10">
+    <div
+      class="absolute inset-0 grid grid-cols-2 sm:grid-cols-[12rem,auto,12rem] bg-gradient-to-b from-black to-black/10 backdrop-blur-lg h-16 text-white border-b shadow-xl border-b-gray-800"
+    >
+      <div>
+        <a
+          href="#top"
+          class="flex items-center text-4xl pl-2 pt-1 w-min"
+          aria-label="top of the page"
+        >
+          <div
+            class="h-14 w-14 bg-[url('/images/bread-logo.png')] bg-cover bg-center rounded-full"
+          >
+          </div>
+        </a>
+      </div>
+      <nav
+        class="space-x-12 self-end hidden sm:flex justify-center text-gray-200 font-medium pb-3"
+      >
+        <a href="#features">Features</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+      <div class="flex items-center justify-end pr-4">
+        <a
+          href="#get-started"
+          class="rounded-full bg-orange-500 font-medium px-4 py-2"
+        >
+          Get Started
+        </a>
+      </div>
+    </div>
+  </header>
+  <main class="overflow-hidden">
+    <section
+      id="top"
+      class="flex flex-col items-center relative bg-[url('/images/heavenly-bread.png')] bg-cover h-screen pt-20 bg-center before:absolute before:bg-black/50 before:inset-0"
+    >
+      <div class="absolute bottom-0 right-1/2 isolate -rotate-[24deg] pb-10">
+        {
+          polaroids.reduce((jsx, { src, alt }) => {
+            return (
+              <div class="absolute isolate -z-10 flex -translate-y-[60%] translate-x-1/2 rotate-12 opacity-80">
+                <Polaroid>
+                  <img src={src} alt={alt} />
+                </Polaroid>
+                {jsx}
+              </div>
+            );
+          }, <span />)
+        }
+      </div>
+      <div class="flex flex-col w-full top-[20%] relative items-center">
+        <h1
+          class="relative text-6xl sm:text-7xl font-bold mx-auto text-center text-white leading-normal sm:leading-tight mb-12"
+        >
+          Feeding bread <span class="relative whitespace-nowrap">
+            <div class="block absolute -inset-1 -skew-y-3 bg-pink-500"></div>
+            <span class="relative text-white">made simple</span>
+          </span>
+        </h1>
+        <div class="relative max-w-3xl w-full text-white px-4">
+          <p class="text-2xl sm:text-4xl text-center">
+            Disrupting the <span
+              class="font-medium text-orange-300 whitespace-nowrap">bread</span
+            > to random <span class="font-medium text-red-300 whitespace-nowrap"
+              >people</span
+            > industry
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="bg-pink-500 overflow-hidden">
+      <div class="flex flex-col-reverse md:grid md:grid-cols-2">
+        <div
+          class="bg-[url('/images/feed-group-of-birds.png')] bg-cover h-[580px] xl:h-[1024px]"
+        >
+        </div>
+        <article class="p-12 pt-24 h-[580px] xl:h-[1024px]">
+          <h1 class="text-white text-4xl xl:text-7xl font-bold mb-8">
+            What is this?
+          </h1>
+          <p class="text-gray-200 font-medium text-xl xl:text-2xl mb-8">
+            We live in a time where gluten literacy is hitting the flour, and
+            the only way to keep up is to stay well bread.
+          </p>
+          <ul
+            class="text-green-400 list-inside font-medium space-y-4 text-2xl xl:text-5xl 2xl:text-6xl"
+          >
+            <li class="relative whitespace-nowrap w-min">
+              <div class="block absolute -inset-2 -skew-y-3 bg-blue-400"></div>
+              <span class="relative text-white">Generated by Open AI</span>
+            </li>
+            <li class="relative whitespace-nowrap w-min">
+              <div class="block absolute -inset-2 skew-y-1 bg-blue-500"></div>
+              <span class="relative text-white">Completely intrusive</span>
+            </li>
+            <li class="relative whitespace-nowrap w-min">
+              <div class="block absolute -inset-2 -skew-y-2 bg-blue-600"></div>
+              <span class="relative text-white">Nobody asked for this</span>
+            </li>
+            <li class="relative whitespace-nowrap w-min">
+              <div class="block absolute -inset-2 -skew-x-12 bg-blue-700"></div>
+              <span class="relative text-white">No profit to be made</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="testimonials" class="bg-yellow-500 isolate">
+      <div class="flex flex-col md:grid md:grid-cols-2">
+        <article class="p-12 pt-24 h-[580px] xl:h-[1024px] z-10">
+          <h1 class="text-white text-4xl xl:text-7xl font-bold mb-8">
+            What do people say?
+          </h1>
+          <p class="text-white font-medium text-xl xl:text-2xl mb-12">
+            Some of our customers just aren't people. But that didn't stop us!
+            We'll get those reviews, even if they'll loaf us.
+          </p>
+
+          <div class="w-1/2 mx-auto max-w-[16rem] xl:max-w-sm">
+            <img
+              src="/images/cartoon-speaker.png"
+              alt="Speakerphone yellow background screaming icon stlye"
+              class="rounded-full"
+            />
+          </div>
+        </article>
+        <div class="relative overflow-hidden h-[580px] xl:h-[1024px]">
+          <ul class="absolute flex inset-0 w-[400%] slides">
+            {
+              testimonies.map(({ background, quote, avatar, name, alt }) => (
+                <li
+                  class:list={[
+                    "relative h-full w-full overflow-hidden bg-cover",
+                    background,
+                  ]}
+                >
+                  <div class="absolute right-0 bottom-1/2 w-64 origin-center -translate-x-1/4 rounded-md bg-white p-4 shadow-xl drop-shadow-xl xl:-translate-x-1/2">
+                    <cite
+                      class:list={[
+                        "flex flex-col leading-normal font-medium font-serif",
+                        "before:content-['“'] before:block before:text-6xl before:text-gray-500 before:h-10",
+                        "after:content-['”'] after:block after:text-right after:text-6xl after:text-gray-500 after:h-10",
+                      ]}
+                    >
+                      {quote}
+                    </cite>
+                    <div class="flex items-center space-x-2 text-sm font-bold text-gray-800">
+                      <img
+                        src={avatar}
+                        alt={alt}
+                        class="h-6 w-6 rounded-full ring-2 ring-black/40"
+                      />
+                      <span>{name}</span>
+                    </div>
+                    <div class="absolute right-0 bottom-0 origin-top translate-y-1/2 rotate-45 border-[1rem] border-l-transparent border-b-white border-r-transparent border-t-transparent" />
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="bg-orange-500">
+      <div class="flex flex-col-reverse md:grid md:grid-cols-2">
+        <div
+          class="flex items-center justify-center p-4 pt-24 h-[580px] xl:h-[780px]"
+        >
+          <div class="flex flex-col rounded-lg shadow-lg drop-shadow-lg">
+            <div class="px-6 py-8 bg-white sm:p-10 sm:pb-6 rounded-t-lg">
+              <div>
+                <h1
+                  class="inline-flex px-4 py-1 rounded-full text-base font-semibold bg-orange-100 text-orange-600"
+                  id="tier-standard"
+                >
+                  Enterprise
+                </h1>
+              </div>
+              <div
+                class="mt-4 flex items-baseline text-6xl tracking-tight font-bold"
+              >
+                $69
+                <span
+                  class="ml-1 text-2xl font-medium text-gray-500 tracking-normal"
+                  >/mo</span
+                >
+              </div>
+              <p class="mt-5 text-lg text-gray-500">
+                This includes being fed bread during bathroom breaks
+              </p>
+            </div>
+            <div
+              class="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6 rounded-b-lg"
+            >
+              <ul role="list" class="space-y-4">
+                {
+                  breads.map(([name, wiki]) => (
+                    <li class="group relative flex items-start">
+                      <article class="pointer-events-none absolute -top-4 z-10 hidden w-full max-w-3xl -translate-y-full rounded-md bg-white p-4 shadow-xl group-hover:flex group-hover:flex-col">
+                        <img
+                          src={wiki.thumbnail.source}
+                          alt={wiki.displaytitle}
+                        />
+                        <h1 class="my-6 text-4xl font-medium">
+                          {wiki.displaytitle}
+                        </h1>
+                        <p class="prose-p:" set:html={wiki.extract_html} />
+                      </article>
+                      <div class="flex-shrink-0">
+                        <img
+                          src="/images/cartoon-check.png"
+                          alt="orange checkmark icon"
+                          class="h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <p class="ml-3 text-base text-gray-700">{name}</p>
+                    </li>
+                  ))
+                }
+              </ul>
+              <div class="rounded-md shadow">
+                <a
+                  href="#get-started"
+                  class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900"
+                  aria-describedby="tier-standard"
+                >
+                  Get started
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <article class="p-12 pt-24 h-[580px] xl:h-[780px]">
+          <h1 class="text-white text-4xl xl:text-7xl font-bold mb-8">
+            How much does it cost?
+          </h1>
+          <p class="text-white font-medium text-xl xl:text-2xl mb-12">
+            Money is our bread <i>and</i> butter, so we'd like you to give it to
+            us. This is the only way to become a bread winner.
+          </p>
+
+          <div class="w-1/2 mx-auto max-w-[16rem] xl:max-w-sm">
+            <img
+              src="/images/cartoon-money.png"
+              alt="wad of money orange background icon style"
+              class="rounded-full"
+            />
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="get-started" class="flex flex-col min-h-screen bg-green-500">
+      <div class="p-12 pt-24">
+        <h1 class="text-white text-4xl xl:text-7xl font-bold mb-8">
+          Wanna get <span class="line-through">scammed</span> bread?
+        </h1>
+        <p class="text-white font-medium text-xl xl:text-2xl mb-12">
+          Fill in the form! We won't read it, but damn it feels good to
+          con-form.
+        </p>
+
+        <div
+          class="rounded-lg bg-white drop-shadow-lg shadow-lg p-6 sm:p-10 sm:pt-6 grid grid-cols-1 lg:grid-cols-2"
+        >
+          <form method="dialog" class="flex flex-col space-y-4">
+            <h2 class="text-4xl font-bold">Bread form</h2>
+            <div>
+              <label id="first_name" class="block font-medium mb-1"
+                >First name</label
+              >
+              <input
+                required
+                autocomplete="given-name"
+                aria-labelledby="first_name"
+                placeholder="Enter first name"
+                type="text"
+                class="ring-1 ring-gray-500 px-4 py-2 rounded-md hover:ring hover:ring-blue-500 w-48 sm:w-64"
+              />
+            </div>
+
+            <div>
+              <label id="last_name" class="block font-medium mb-1"
+                >Last name</label
+              >
+              <input
+                required
+                autocomplete="family-name"
+                aria-labelledby="last_name"
+                placeholder="Enter last name"
+                type="text"
+                class="ring-1 ring-gray-500 px-4 py-2 rounded-md hover:ring hover:ring-blue-500 w-48 sm:w-64"
+              />
+            </div>
+
+            <div>
+              <label id="secret" class="block font-medium mb-1">Secret</label>
+              <input
+                required
+                autocomplete="off"
+                aria-labelledby="secret"
+                placeholder="Enter secret"
+                type="text"
+                class="ring-1 ring-gray-500 px-4 py-2 rounded-md hover:ring hover:ring-blue-500 w-48 sm:w-64"
+              />
+            </div>
+
+            <div>
+              <label id="honorific" class="block font-medium mb-1">Gender</label
+              >
+              <select
+                required
+                autocomplete="honorific-prefix"
+                aria-labelledby="honorific"
+                class="ring-1 ring-gray-500 px-4 py-2 hover:ring hover:ring-blue-500 rounded-md border-r-8 border-white w-48"
+              >
+                {
+                  ["Mr.", "Mrs.", "Bread"].map((name) => (
+                    <option>
+                      <span class="py-2">{name}</span>
+                    </option>
+                  ))
+                }
+              </select>
+            </div>
+
+            <div>
+              <label id="disaster" class="block font-medium mb-1"
+                >In the event of</label
+              >
+              <select
+                required
+                autocomplete="off"
+                aria-labelledby="disaster"
+                class="ring-1 ring-gray-500 px-4 py-2 hover:ring hover:ring-blue-500 rounded-md border-r-8 border-white w-48"
+              >
+                {
+                  ["Pandemic", "Apocalypse", "Denmark"].map((name) => (
+                    <option>
+                      <span class="py-2">{name}</span>
+                    </option>
+                  ))
+                }
+              </select>
+            </div>
+            <div class="flex w-full pt-10">
+              <button
+                class="px-4 py-2 border bg-gray-800 w-full hover:bg-gray-900 text-white font-medium rounded-lg"
+                >Get in the bread line</button
+              >
+            </div>
+          </form>
+          <div
+            class="hidden lg:block bg-[url('/images/form-bread.png')] bg-cover rounded-full m-12"
+          >
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex-grow flex items-end bg-gradient-to-b from-green-500 to-green-700"
+      >
+        <footer class="w-full">
+          <div
+            class="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8"
+          >
+            <div class="mt-8 md:mt-0 md:order-1">
+              <p class="text-left text-base text-white">
+                &copy; 2020 Bread, Inc. All rights reserved. <br />All images
+                are generated with DALL-E Open AI <a
+                  href="https://labs.openai.com/"
+                  target="_blank"
+                  class="underline text-blue-200 hover:no-underline"
+                  >https://labs.openai.com/</a
+                >
+              </p>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  @keyframes carousel {
+    0% {
+      transform: translateX(0%);
+    }
+    31% {
+      transform: translateX(0%);
+    }
+    33% {
+      transform: translateX(-25%);
+    }
+    64% {
+      transform: translateX(-25%);
+    }
+    66% {
+      transform: translateX(-50%);
+    }
+    98% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(-75%);
+    }
+  }
+
+  .slides {
+    animation: carousel 20s ease-in-out 2s infinite;
+  }
+</style>
