@@ -4,42 +4,42 @@ import Layout from "../layouts/Layout.astro";
 
 const polaroids = [
   {
-    src: "/images/feed-woman.png",
+    src: "/images/feed-woman.jpg",
     alt: "hand feeding bread to woman red lips",
   },
   {
-    src: "/images/feed-crocodile.png",
+    src: "/images/feed-crocodile.jpg",
     alt: "hand feeding bread to woman crocodile",
   },
   {
-    src: "/images/feed-fish.png",
+    src: "/images/feed-fish.jpg",
     alt: "hand feeding bread to woman fish underwater",
   },
-  { src: "/images/feed-prison.png", alt: "hand feeding bread to prison bars" },
-  { src: "/images/feed-sun.png", alt: "hand feeding bread to the sun" },
+  { src: "/images/feed-prison.jpg", alt: "hand feeding bread to prison bars" },
+  { src: "/images/feed-sun.jpg", alt: "hand feeding bread to the sun" },
 ].reverse();
 
 const testimonies = [
   {
-    background: "bg-[url('/images/testimony-blind.png')]",
+    background: "bg-[url('/images/testimony-blind.jpg')]",
     quote:
       "Hi, is this 911? I'm living next to trashcan and somebody keeps handing me bread. Please send someone!",
-    avatar: "/images/profile-person.png",
+    avatar: "/images/profile-person.jpg",
     name: "Anonymous blind person",
     alt: "web avatar photo in style of 1600 painting",
   },
   {
-    background: "bg-[url('/images/testimony-unicorn.png')]",
+    background: "bg-[url('/images/testimony-unicorn.jpg')]",
     quote:
       "It wasn't always like this. I don't know where they came from. This is going to bring about the extinction of my race.",
-    avatar: "/images/profile-unicorn.png",
+    avatar: "/images/profile-unicorn.jpg",
     name: "Anonymous unicorn",
     alt: "macro 100mm photo of happy unicorn receiving bread from hand",
   },
   {
-    background: "bg-[url('/images/testimony-hand.png')]",
+    background: "bg-[url('/images/testimony-hand.jpg')]",
     quote: "Pretty handy, so far.",
-    avatar: "/images/profile-hand.png",
+    avatar: "/images/profile-hand.jpg",
     name: "Anonymous floating hand",
     alt: "photo of hand smoking noir centered in middle",
   },
@@ -129,6 +129,14 @@ const breads: [string, WikiSummary][] = [
       "https://en.wikipedia.org/api/rest_v1/page/summary/T%27anta_wawa"
     ),
   ],
+  [
+    "Boortsog",
+    await read("https://en.wikipedia.org/api/rest_v1/page/summary/Boortsog"),
+  ],
+  [
+    "Melonpan",
+    await read("https://en.wikipedia.org/api/rest_v1/page/summary/Melonpan"),
+  ],
 ];
 ---
 
@@ -144,7 +152,7 @@ const breads: [string, WikiSummary][] = [
           aria-label="top of the page"
         >
           <div
-            class="h-14 w-14 bg-[url('/images/bread-logo.png')] bg-cover bg-center rounded-full"
+            class="h-14 w-14 bg-[url('/images/bread-logo.jpg')] bg-cover bg-center rounded-full"
           >
           </div>
         </a>
@@ -169,7 +177,7 @@ const breads: [string, WikiSummary][] = [
   <main class="overflow-hidden">
     <section
       id="top"
-      class="flex flex-col items-center relative bg-[url('/images/heavenly-bread.png')] bg-cover h-screen pt-20 bg-center before:absolute before:bg-black/50 before:inset-0"
+      class="flex flex-col items-center relative bg-[url('/images/heavenly-bread.jpg')] bg-cover h-screen pt-20 bg-center before:absolute before:bg-black/50 before:inset-0"
     >
       <div class="absolute bottom-0 right-1/2 isolate -rotate-[24deg] pb-10">
         {
@@ -187,20 +195,20 @@ const breads: [string, WikiSummary][] = [
       </div>
       <div class="flex flex-col w-full top-[20%] relative items-center">
         <h1
-          class="relative text-6xl sm:text-7xl font-bold mx-auto text-center text-white leading-normal sm:leading-tight mb-12"
+          class="relative text-5xl sm:text-7xl font-bold mx-auto text-center text-white leading-normal sm:leading-tight mb-12"
         >
           Feeding bread <span class="relative whitespace-nowrap">
             <div class="block absolute -inset-1 -skew-y-3 bg-pink-500"></div>
             <span class="relative text-white">made simple</span>
           </span>
         </h1>
-        <div class="relative max-w-3xl w-full text-white px-4">
-          <p class="text-2xl sm:text-4xl text-center">
-            Disrupting the <span
+        <div class="relative max-w-3xl xl:max-w-4xl w-full text-white px-4">
+          <p class="text-2xl sm:text-4xl xl:text-6xl text-center">
+            Disrupting <span
               class="font-medium text-orange-300 whitespace-nowrap">bread</span
-            > to random <span class="font-medium text-red-300 whitespace-nowrap"
-              >people</span
-            > industry
+            >, and making <span
+              class="font-medium text-red-300 whitespace-nowrap">butter</span
+            > while doing it
           </p>
         </div>
       </div>
@@ -209,14 +217,16 @@ const breads: [string, WikiSummary][] = [
     <section id="features" class="bg-pink-500 overflow-hidden">
       <div class="flex flex-col-reverse md:grid md:grid-cols-2">
         <div
-          class="bg-[url('/images/feed-group-of-birds.png')] bg-cover h-[580px] xl:h-[1024px]"
+          class="bg-[url('/images/feed-group-of-birds.jpg')] bg-cover h-[580px] xl:h-[1024px]"
         >
         </div>
         <article class="p-12 pt-24 h-[580px] xl:h-[1024px]">
           <h1 class="text-white text-4xl xl:text-7xl font-bold mb-8">
             What is this?
           </h1>
-          <p class="text-gray-200 font-medium text-xl xl:text-2xl mb-8">
+          <p
+            class="text-gray-200 font-medium text-xl xl:text-4xl 2xl:text-5xl mb-8 2xl:mb-16"
+          >
             We live in a time where gluten literacy is hitting the flour, and
             the only way to keep up is to stay well bread.
           </p>
@@ -224,20 +234,38 @@ const breads: [string, WikiSummary][] = [
             class="text-green-400 list-inside font-medium space-y-4 text-2xl xl:text-5xl 2xl:text-6xl"
           >
             <li class="relative whitespace-nowrap w-min">
-              <div class="block absolute -inset-2 -skew-y-3 bg-blue-400"></div>
+              <div class="block absolute -inset-2 -skew-y-3 bg-blue-300"></div>
               <span class="relative text-white">Generated by Open AI</span>
             </li>
             <li class="relative whitespace-nowrap w-min">
-              <div class="block absolute -inset-2 skew-y-1 bg-blue-500"></div>
+              <div class="block absolute -inset-2 skew-y-1 bg-blue-400"></div>
               <span class="relative text-white">Completely intrusive</span>
             </li>
             <li class="relative whitespace-nowrap w-min">
-              <div class="block absolute -inset-2 -skew-y-2 bg-blue-600"></div>
+              <div class="block absolute -inset-2 -skew-y-2 bg-blue-500"></div>
               <span class="relative text-white">Nobody asked for this</span>
             </li>
             <li class="relative whitespace-nowrap w-min">
-              <div class="block absolute -inset-2 -skew-x-12 bg-blue-700"></div>
+              <div class="block absolute -inset-2 -skew-x-12 bg-blue-600"></div>
               <span class="relative text-white">No profit to be made</span>
+            </li>
+            <li class="relative whitespace-nowrap w-min hidden xl:block">
+              <div class="block absolute -inset-2 skew-x-6 bg-blue-700"></div>
+              <span class="relative text-white">Gives you freedom</span>
+            </li>
+            <li class="relative whitespace-nowrap w-min hidden xl:block">
+              <div
+                class="block absolute -inset-2 skew-x-6 skew-y-2 bg-blue-800"
+              >
+              </div>
+              <span class="relative text-white">Puts men on mars</span>
+            </li>
+            <li class="relative whitespace-nowrap w-min hidden xl:block">
+              <div
+                class="block absolute -inset-2 -skew-y-1 -skew-x-6 bg-blue-900"
+              >
+              </div>
+              <span class="relative text-white">Bready steady go</span>
             </li>
           </ul>
         </article>
@@ -250,21 +278,23 @@ const breads: [string, WikiSummary][] = [
           <h1 class="text-white text-4xl xl:text-7xl font-bold mb-8">
             What do people say?
           </h1>
-          <p class="text-white font-medium text-xl xl:text-2xl mb-12">
+          <p
+            class="text-white font-medium text-xl xl:text-4xl 2xl:text-5xl mb-12"
+          >
             Some of our customers just aren't people. But that didn't stop us!
             We'll get those reviews, even if they'll loaf us.
           </p>
 
           <div class="w-1/2 mx-auto max-w-[16rem] xl:max-w-sm">
             <img
-              src="/images/cartoon-speaker.png"
+              src="/images/cartoon-speaker.jpg"
               alt="Speakerphone yellow background screaming icon stlye"
               class="rounded-full"
             />
           </div>
         </article>
         <div class="relative overflow-hidden h-[580px] xl:h-[1024px]">
-          <ul class="absolute flex inset-0 w-[400%] slides">
+          <ul class="absolute flex inset-0 w-[400%] animate-slides">
             {
               testimonies.map(({ background, quote, avatar, name, alt }) => (
                 <li
@@ -273,10 +303,10 @@ const breads: [string, WikiSummary][] = [
                     background,
                   ]}
                 >
-                  <div class="absolute right-0 bottom-1/2 w-64 origin-center -translate-x-1/4 rounded-md bg-white p-4 shadow-xl drop-shadow-xl xl:-translate-x-1/2">
+                  <div class="absolute right-0 bottom-1/2 w-64 origin-center -translate-x-1/4 rounded-md bg-white p-4 shadow-xl drop-shadow-xl xl:w-full xl:max-w-sm xl:-translate-x-1/2">
                     <cite
                       class:list={[
-                        "flex flex-col leading-normal font-medium font-serif",
+                        "flex flex-col leading-normal font-medium font-serif text-base xl:text-4xl",
                         "before:content-['“'] before:block before:text-6xl before:text-gray-500 before:h-10",
                         "after:content-['”'] after:block after:text-right after:text-6xl after:text-gray-500 after:h-10",
                       ]}
@@ -297,6 +327,12 @@ const breads: [string, WikiSummary][] = [
               ))
             }
           </ul>
+          <div
+            class="bg-orange-900 h-1 absolute bottom-0 left-0 right-0 opacity-80"
+          >
+            <div class="bg-yellow-600 w-full h-full origin-left animate-timer">
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -304,14 +340,14 @@ const breads: [string, WikiSummary][] = [
     <section id="pricing" class="bg-orange-500">
       <div class="flex flex-col-reverse md:grid md:grid-cols-2">
         <div
-          class="flex items-center justify-center p-4 pt-24 h-[580px] xl:h-[780px]"
+          class="flex items-center justify-center p-4 pt-24 h-[600px] xl:h-[960px]"
         >
-          <div class="flex flex-col rounded-lg shadow-lg drop-shadow-lg">
+          <div class="flex flex-col rounded-lg shadow-lg drop-shadow-lg h-full">
             <div class="px-6 py-8 bg-white sm:p-10 sm:pb-6 rounded-t-lg">
               <div>
                 <h1
                   class="inline-flex px-4 py-1 rounded-full text-base font-semibold bg-orange-100 text-orange-600"
-                  id="tier-standard"
+                  id="tier-enterprise"
                 >
                   Enterprise
                 </h1>
@@ -329,15 +365,31 @@ const breads: [string, WikiSummary][] = [
                 This includes being fed bread during bathroom breaks
               </p>
             </div>
+
+            <div
+              class="relative hidden xl:block flex-grow bg-[url('/images/promo-bread.jpg')] bg-center bg-cover after:bg-orange-500/40 after:absolute after:inset-0"
+            >
+            </div>
+
             <div
               class="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6 rounded-b-lg"
             >
               <ul role="list" class="space-y-4">
                 {
-                  breads.map(([name, wiki]) => (
-                    <li class="group relative flex items-start">
+                  breads.map(([name, wiki], i) => (
+                    <li
+                      class:list={[
+                        "group relative items-start",
+                        {
+                          "hidden xl:flex": i > 2,
+                          flex: i <= 2,
+                        },
+                      ]}
+                    >
                       <article class="pointer-events-none absolute -top-4 z-10 hidden w-full max-w-3xl -translate-y-full rounded-md bg-white p-4 shadow-xl group-hover:flex group-hover:flex-col">
                         <img
+                          width={wiki.thumbnail.width}
+                          height={wiki.thumbnail.height}
                           src={wiki.thumbnail.source}
                           alt={wiki.displaytitle}
                         />
@@ -348,7 +400,7 @@ const breads: [string, WikiSummary][] = [
                       </article>
                       <div class="flex-shrink-0">
                         <img
-                          src="/images/cartoon-check.png"
+                          src="/images/cartoon-check.jpg"
                           alt="orange checkmark icon"
                           class="h-6 w-6"
                           aria-hidden="true"
@@ -363,7 +415,7 @@ const breads: [string, WikiSummary][] = [
                 <a
                   href="#get-started"
                   class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900"
-                  aria-describedby="tier-standard"
+                  aria-describedby="tier-enterprise"
                 >
                   Get started
                 </a>
@@ -372,18 +424,20 @@ const breads: [string, WikiSummary][] = [
           </div>
         </div>
 
-        <article class="p-12 pt-24 h-[580px] xl:h-[780px]">
+        <article class="p-12 pt-24 h-[600px] xl:h-[960px]">
           <h1 class="text-white text-4xl xl:text-7xl font-bold mb-8">
             How much does it cost?
           </h1>
-          <p class="text-white font-medium text-xl xl:text-2xl mb-12">
-            Money is our bread <i>and</i> butter, so we'd like you to give it to
-            us. This is the only way to become a bread winner.
+          <p
+            class="text-white font-medium text-xl xl:text-4xl 2xl:text-5xl mb-12"
+          >
+            Let's break the mold. Money is our bread <i>and</i> butter, so we'd like
+            you to give it to us. Make us become bread winners!
           </p>
 
           <div class="w-1/2 mx-auto max-w-[16rem] xl:max-w-sm">
             <img
-              src="/images/cartoon-money.png"
+              src="/images/cartoon-money.jpg"
               alt="wad of money orange background icon style"
               class="rounded-full"
             />
@@ -395,9 +449,11 @@ const breads: [string, WikiSummary][] = [
     <section id="get-started" class="flex flex-col min-h-screen bg-green-500">
       <div class="p-12 pt-24">
         <h1 class="text-white text-4xl xl:text-7xl font-bold mb-8">
-          Wanna get <span class="line-through">scammed</span> bread?
+          Wanna get <span class="line-through">scammed</span>🧹 bread?
         </h1>
-        <p class="text-white font-medium text-xl xl:text-2xl mb-12">
+        <p
+          class="text-white font-medium text-xl xl:text-4xl 2xl:text-5xl mb-12"
+        >
           Fill in the form! We won't read it, but damn it feels good to
           con-form.
         </p>
@@ -487,13 +543,13 @@ const breads: [string, WikiSummary][] = [
             </div>
             <div class="flex w-full pt-10">
               <button
-                class="px-4 py-2 border bg-gray-800 w-full hover:bg-gray-900 text-white font-medium rounded-lg"
+                class="flex items-center justify-center px-5 py-3 w-full max-w-sm border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900g"
                 >Get in the bread line</button
               >
             </div>
           </form>
           <div
-            class="hidden lg:block bg-[url('/images/form-bread.png')] bg-cover bg-center rounded-full m-12"
+            class="hidden lg:block bg-[url('/images/form-bread.jpg')] bg-cover bg-center rounded-full m-12"
           >
           </div>
         </div>
@@ -548,7 +604,23 @@ const breads: [string, WikiSummary][] = [
     }
   }
 
-  .slides {
-    animation: carousel 20s ease-in-out 2s infinite;
+  @keyframes timer {
+    0% {
+      transform: scaleX(100%);
+    }
+    93% {
+      transform: scaleX(0%);
+    }
+    100% {
+      transform: scaleX(100%);
+    }
+  }
+
+  .animate-slides {
+    animation: carousel 30s ease-in-out 2s infinite;
+  }
+
+  .animate-timer {
+    animation: timer calc(30s / 3) linear 2s infinite;
   }
 </style>
